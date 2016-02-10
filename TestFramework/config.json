@@ -1,0 +1,15 @@
+{
+	"ifcFiles": "D:\\ifcfiles",
+	"bimserver": {
+		"address": "http://bimserver.logic-labs.nl",
+		"username": "testing@bimserver.org",
+		"password": "testing"
+	},
+	"database": {
+		"host": "localhost",
+		"port": 3306,
+		"database": "bimserver",
+		"username": "bimserver",
+		"password": "NcAxtft5mPzBdN6w"
+	}
+}
