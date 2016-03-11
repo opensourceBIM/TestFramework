@@ -3,6 +3,9 @@
 	<groupId>org.opensourcebim</groupId>
 	<artifactId>TestFramework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<exec.mainClass>org.bimserver.test.frameworks.tests.TestAllServer</exec.mainClass>
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
