@@ -33,6 +33,7 @@ import org.bimserver.plugins.PluginManager;
 import org.bimserver.shared.LocalDevelopmentResourceFetcher;
 import org.bimserver.shared.interfaces.AdminInterface;
 import org.bimserver.shared.interfaces.SettingsInterface;
+import org.bimserver.test.framework.tests.TestFrameworkResourceFetcher;
 import org.bimserver.utils.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +78,7 @@ public class TestFramework {
 			Path workspaceDir = Paths.get(".");
 			bimServerConfig.setDevelopmentBaseDir(workspaceDir);
 			LOGGER.info("Workspace Dir: " + workspaceDir.toAbsolutePath().toString());
-			bimServerConfig.setResourceFetcher(new LocalDevelopmentResourceFetcher(workspaceDir));
+			bimServerConfig.setResourceFetcher(new TestFrameworkResourceFetcher(workspaceDir));
 			bimServerConfig.setClassPath(System.getProperty("java.class.path"));
 			bimServer = new BimServer(bimServerConfig);
 			try {
