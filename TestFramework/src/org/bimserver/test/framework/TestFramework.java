@@ -74,8 +74,10 @@ public class TestFramework {
 			bimServerConfig.setStartEmbeddedWebServer(true);
 			bimServerConfig.setHomeDir(testConfiguration.getHomeDir());
 			bimServerConfig.setPort(8080);
-			bimServerConfig.setDevelopmentBaseDir(Paths.get("TestFramework"));
-			bimServerConfig.setResourceFetcher(new LocalDevelopmentResourceFetcher(Paths.get("TestFramework")));
+			Path workspaceDir = Paths.get("TestFramework");
+			bimServerConfig.setDevelopmentBaseDir(workspaceDir);
+			LOGGER.info("Workspace Dir: " + workspaceDir);
+			bimServerConfig.setResourceFetcher(new LocalDevelopmentResourceFetcher(workspaceDir));
 			bimServerConfig.setClassPath(System.getProperty("java.class.path"));
 			bimServer = new BimServer(bimServerConfig);
 			try {
