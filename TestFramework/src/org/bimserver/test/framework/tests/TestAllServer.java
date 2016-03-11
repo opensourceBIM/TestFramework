@@ -24,6 +24,7 @@ public class TestAllServer {
 		testConfiguration.setStopNoVirtualUsers(false);
 		testConfiguration.setStopOnServerException(false);
 		testConfiguration.setNrEngineProcesses(8);
+		testConfiguration.setCleanEnvironmentFirst(false);
 
 		testFramework.start();
 	}
