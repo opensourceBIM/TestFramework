@@ -26,6 +26,8 @@ import java.util.Set;
 
 import org.bimserver.BimServer;
 import org.bimserver.BimServerConfig;
+import org.bimserver.EmbeddedWebServer;
+import org.bimserver.EmbeddedWebServerInterface;
 import org.bimserver.LocalDevPluginLoader;
 import org.bimserver.interfaces.objects.SServerSettings;
 import org.bimserver.models.store.ServerState;
@@ -82,6 +84,7 @@ public class TestFramework {
 			bimServerConfig.setClassPath(System.getProperty("java.class.path"));
 			bimServer = new BimServer(bimServerConfig);
 			try {
+				bimServer.setEmbeddedWebServer(new EmbeddedWebServer(bimServer, workspaceDir, false));
 				bimServer.start();
 				LocalDevPluginLoader.loadPlugins(bimServer.getPluginManager(), pluginDirectories);
 				// Convenience, setup the server to make sure it is in RUNNING state
