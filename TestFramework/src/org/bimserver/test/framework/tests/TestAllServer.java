@@ -25,6 +25,8 @@ public class TestAllServer {
 		testConfiguration.setStopOnServerException(false);
 		testConfiguration.setNrEngineProcesses(8);
 		testConfiguration.setCleanEnvironmentFirst(true);
+		testConfiguration.setPort(6060);
+		testConfiguration.setHost("thisisanexperimentalserver.com");
 
 		testFramework.start();
 	}

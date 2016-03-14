@@ -94,7 +94,7 @@ public class TestFramework {
 				LocalDevPluginLoader.loadPlugins(bimServer.getPluginManager(), pluginDirectories);
 				// Convenience, setup the server to make sure it is in RUNNING state
 				if (bimServer.getServerInfo().getServerState() == ServerState.NOT_SETUP) {
-					bimServer.getService(AdminInterface.class).setup("http://localhost:6060", "Administrator", "admin@bimserver.org", "admin");
+					bimServer.getService(AdminInterface.class).setup("http://" + testConfiguration.getHost() + ":" + testConfiguration.getPort(), "Administrator", "admin@bimserver.org", "admin");
 					bimServer.getService(SettingsInterface.class).setGenerateGeometryOnCheckin(false);
 					bimServer.getService(SettingsInterface.class).setSendConfirmationEmailAfterRegistration(false);
 				}

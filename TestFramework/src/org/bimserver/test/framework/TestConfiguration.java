@@ -38,6 +38,16 @@ public class TestConfiguration {
 	private TestFileProvider testFileProvider;
 	private boolean stopEmbeddedServerAfterTests = false;
 	private int nrEngineProcesses;
+	private String host = "localhost";
+	private int port = 8080;
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
+	}
 	
 	public int getNrVirtualUsers() {
 		return nrVirtualUsers;
@@ -149,5 +159,13 @@ public class TestConfiguration {
 	
 	public int getNrEngineProcesses() {
 		return nrEngineProcesses;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public String getHost() {
+		return host;
 	}
 }
