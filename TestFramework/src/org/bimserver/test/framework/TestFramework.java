@@ -144,7 +144,7 @@ public class TestFramework {
 		SPluginBundle pluginBundle = pluginInterface.getPluginBundle(repository, groupId, artifactId);
 		SPluginBundleVersion latestVersion = pluginBundle.getLatestVersion();
 		List<SPluginInformation> plugins = pluginInterface.getPluginInformation(repository, groupId, artifactId, latestVersion.getVersion());
-		pluginInterface.installPluginBundle(repository, "org.opensourcebim", "ifcplugins", latestVersion.getVersion(), plugins);
+		pluginInterface.installPluginBundle(repository, groupId, artifactId, latestVersion.getVersion(), plugins);
 	}
 
 	public synchronized Path getTestFile() {

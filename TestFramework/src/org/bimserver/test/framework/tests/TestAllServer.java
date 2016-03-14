@@ -15,7 +15,7 @@ public class TestAllServer {
 		TestConfiguration testConfiguration = new TestConfiguration();
 		TestFramework testFramework = new TestFramework(testConfiguration, new OptionsParser(args).getPluginDirectories());
 
-		testConfiguration.setHomeDir(Paths.get("/var/bimservertest"));
+		testConfiguration.setHomeDir(Paths.get("/var/bimservertest/home"));
 		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
 		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 6060, Type.JSON));
 		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("/var/ifc"), testFramework));
@@ -24,7 +24,7 @@ public class TestAllServer {
 		testConfiguration.setStopNoVirtualUsers(false);
 		testConfiguration.setStopOnServerException(false);
 		testConfiguration.setNrEngineProcesses(8);
-		testConfiguration.setCleanEnvironmentFirst(false);
+		testConfiguration.setCleanEnvironmentFirst(true);
 
 		testFramework.start();
 	}
