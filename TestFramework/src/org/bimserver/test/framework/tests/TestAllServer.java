@@ -17,7 +17,7 @@ public class TestAllServer {
 
 		testConfiguration.setHomeDir(Paths.get("/var/bimservertest"));
 		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
-		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, Type.JSON));
+		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 6060, Type.JSON));
 		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("/var/ifc"), testFramework));
 		testConfiguration.setOutputFolder(Paths.get("/var/bimservertestoutput"));
 		testConfiguration.setNrVirtualUsers(8);

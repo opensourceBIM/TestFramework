@@ -38,7 +38,7 @@ public class TestCollada {
 		testConfiguration.setStopOnUserException(false);
 //		testConfiguration.setActionFactory(new RandomActionFactory(new CheckinAction(testFramework, new CheckinSettings()), new DownloadRevisionAction(testFramework, "Collada")));
 		testConfiguration.setOutputFolder(Paths.get("output"));
-		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, Type.SOAP));
+		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.SOAP));
 
 		testFramework.start();
 	}

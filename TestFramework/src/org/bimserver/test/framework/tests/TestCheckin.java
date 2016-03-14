@@ -77,7 +77,7 @@ public class TestCheckin {
 			} 
 		));
 //		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
-		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, Type.JSON));
+		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
 		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("E:\\Ifc Files"), testFramework));
 //		testConfiguration.setTestFileProvider(new FolderWalker(new File("C:\\Users\\Ruben de Laat\\Documents\\My Dropbox\\Logic Labs\\Clients\\TNO\\ifc selected")));
 		testConfiguration.setOutputFolder(Paths.get("E:\\output"));

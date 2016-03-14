@@ -34,7 +34,7 @@ public class TestAll {
 
 		testConfiguration.setHomeDir(Paths.get("E:\\Test"));
 		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
-		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, Type.JSON));
+		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
 		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\ifcfiles"), testFramework));
 		testConfiguration.setOutputFolder(Paths.get("E:\\Output"));
 		testConfiguration.setNrVirtualUsers(8);

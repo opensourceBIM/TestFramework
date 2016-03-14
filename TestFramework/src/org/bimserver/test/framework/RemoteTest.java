@@ -30,7 +30,7 @@ public class RemoteTest {
 
 		testConfiguration.setHomeDir(Paths.get("/opt/bimservertest"));
 		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
-		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, Type.values()));
+		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.values()));
 		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("/mnt/sata1/ifcselected"), testFramework));
 		testConfiguration.setOutputFolder(Paths.get("/opt/output"));
 		testConfiguration.setNrVirtualUsers(4);

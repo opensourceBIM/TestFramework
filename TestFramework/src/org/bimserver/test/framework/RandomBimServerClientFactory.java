@@ -62,7 +62,7 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 	private ProtocolBuffersBimServerClientFactory protocolBuffersBimServerClientFactory;
 	private SoapBimServerClientFactory soapBimServerClientFactory;
 	
-	public RandomBimServerClientFactory(TestFramework testFramework, Type... types) {
+	public RandomBimServerClientFactory(TestFramework testFramework, int port, Type... types) {
 		if (types.length == 0) {
 			this.types = Type.values();
 		} else {
@@ -80,11 +80,11 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 			MetaDataManager metaDataManager = new MetaDataManager(home.resolve("tmp"));
 			pluginManager.setMetaDataManager(metaDataManager);
 
-			jsonBimServerClientFactory = new JsonBimServerClientFactory("http://localhost:8080", servicesMap, new JsonSocketReflectorFactory(servicesMap), reflectorFactory, metaDataManager);
+			jsonBimServerClientFactory = new JsonBimServerClientFactory("http://localhost:" + port, servicesMap, new JsonSocketReflectorFactory(servicesMap), reflectorFactory, metaDataManager);
 			ProtocolBuffersMetaData protocolBuffersMetaData = new ProtocolBuffersMetaData();
 			protocolBuffersMetaData.load(servicesMap, ProtocolBuffersBimServerClientFactory.class);
 			protocolBuffersBimServerClientFactory = new ProtocolBuffersBimServerClientFactory("localhost", 8020, 8080, protocolBuffersMetaData, metaDataManager);
-			soapBimServerClientFactory = new SoapBimServerClientFactory("http://localhost:8080", servicesMap, metaDataManager);
+			soapBimServerClientFactory = new SoapBimServerClientFactory("http://localhost:" + port, servicesMap, metaDataManager);
 		} catch (PluginException e) {
 			e.printStackTrace();
 		}

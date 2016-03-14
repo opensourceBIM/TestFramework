@@ -27,12 +27,10 @@ import java.util.Set;
 import org.bimserver.BimServer;
 import org.bimserver.BimServerConfig;
 import org.bimserver.EmbeddedWebServer;
-import org.bimserver.EmbeddedWebServerInterface;
 import org.bimserver.LocalDevPluginLoader;
 import org.bimserver.interfaces.objects.SServerSettings;
 import org.bimserver.models.store.ServerState;
 import org.bimserver.plugins.PluginManager;
-import org.bimserver.shared.LocalDevelopmentResourceFetcher;
 import org.bimserver.shared.interfaces.AdminInterface;
 import org.bimserver.shared.interfaces.SettingsInterface;
 import org.bimserver.test.framework.tests.TestFrameworkResourceFetcher;
@@ -89,7 +87,7 @@ public class TestFramework {
 				LocalDevPluginLoader.loadPlugins(bimServer.getPluginManager(), pluginDirectories);
 				// Convenience, setup the server to make sure it is in RUNNING state
 				if (bimServer.getServerInfo().getServerState() == ServerState.NOT_SETUP) {
-					bimServer.getService(AdminInterface.class).setup("http://localhost:8080", "Administrator", "admin@bimserver.org", "admin");
+					bimServer.getService(AdminInterface.class).setup("http://localhost:6060", "Administrator", "admin@bimserver.org", "admin");
 					bimServer.getService(SettingsInterface.class).setGenerateGeometryOnCheckin(false);
 					bimServer.getService(SettingsInterface.class).setSendConfirmationEmailAfterRegistration(false);
 				}

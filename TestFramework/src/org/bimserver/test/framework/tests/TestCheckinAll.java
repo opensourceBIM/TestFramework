@@ -34,7 +34,7 @@ public class TestCheckinAll {
 
 		testConfiguration.setHomeDir(Paths.get("D:\\Test"));
 		testConfiguration.setActionFactory(new CheckinActionsFactory(testFramework));
-		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, Type.JSON));
+		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
 		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\ifc selected"), testFramework));
 		testConfiguration.setOutputFolder(Paths.get("D:\\Output"));
 		testConfiguration.setNrVirtualUsers(1);
