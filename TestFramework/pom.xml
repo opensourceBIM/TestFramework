@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.opensourcebim</groupId>
 			<artifactId>bimserverjar</artifactId>
-			<version>1.5.35-SNAPSHOT</version>
+			<version>1.5.36</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
