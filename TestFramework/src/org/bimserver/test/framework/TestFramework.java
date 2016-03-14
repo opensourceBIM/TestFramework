@@ -113,7 +113,7 @@ public class TestFramework {
 				installPlugin(repository, "org.opensourcebim", "ifcplugins", pluginInterface);
 				installPlugin(repository, "org.opensourcebim", "binaryserializers", pluginInterface);
 				installPlugin(repository, "org.opensourcebim", "ifcopenshellplugin", pluginInterface);
-				installPlugin(repository, "org.opensourcebim", "ifcengine", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "ifcengine", pluginInterface);
 				installPlugin(repository, "org.opensourcebim", "bimviews", pluginInterface);
 				installPlugin(repository, "org.opensourcebim", "bimsurfer", pluginInterface);
 				installPlugin(repository, "org.opensourcebim", "bimserverapi", pluginInterface);
