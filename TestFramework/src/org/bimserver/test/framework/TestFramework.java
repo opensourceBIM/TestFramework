@@ -103,6 +103,7 @@ public class TestFramework {
 				bimServer.getService(SettingsInterface.class).setAllowUsersToCreateTopLevelProjects(true);
 				SServerSettings serverSettings = bimServer.getService(SettingsInterface.class).getServerSettings();
 				serverSettings.setRenderEngineProcesses(testConfiguration.getNrEngineProcesses());
+				serverSettings.setPluginStrictVersionChecking(false);
 				bimServer.getService(SettingsInterface.class).setServerSettings(serverSettings);
 				
 				String repository = "http://central.maven.org/maven2";
