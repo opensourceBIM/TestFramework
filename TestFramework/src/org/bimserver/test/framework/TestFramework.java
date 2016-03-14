@@ -144,6 +144,9 @@ public class TestFramework {
 		SPluginBundle pluginBundle = pluginInterface.getPluginBundle(repository, groupId, artifactId);
 		SPluginBundleVersion latestVersion = pluginBundle.getLatestVersion();
 		List<SPluginInformation> plugins = pluginInterface.getPluginInformation(repository, groupId, artifactId, latestVersion.getVersion());
+		for (SPluginInformation pluginInformation : plugins) {
+			pluginInformation.setInstallForAllUsers(true);
+		}
 		pluginInterface.installPluginBundle(repository, groupId, artifactId, latestVersion.getVersion(), plugins);
 	}
 
