@@ -76,7 +76,7 @@ public class TestFramework {
 			BimServerConfig bimServerConfig = new BimServerConfig();
 			bimServerConfig.setStartEmbeddedWebServer(true);
 			bimServerConfig.setHomeDir(testConfiguration.getHomeDir());
-			bimServerConfig.setPort(8080);
+			bimServerConfig.setPort(6060);
 			Path workspaceDir = Paths.get(".");
 			bimServerConfig.setDevelopmentBaseDir(workspaceDir);
 			LOGGER.info("Workspace Dir: " + workspaceDir.toAbsolutePath().toString());
