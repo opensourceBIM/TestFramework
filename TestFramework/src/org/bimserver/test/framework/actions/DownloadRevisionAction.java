@@ -22,9 +22,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.bimserver.database.queries.om.Query;
 import org.bimserver.interfaces.objects.SActionState;
 import org.bimserver.interfaces.objects.SProject;
 import org.bimserver.interfaces.objects.SRevision;
@@ -66,7 +68,11 @@ public class DownloadRevisionAction extends Action {
 				boolean sync = nextBoolean();
 				virtualUser.getActionResults().setText("Downloading revision " + project.getLastRevisionId() + " of project " + project.getName() + " with serializer " + serializer.getName() + " sync: " + sync);
 				SRevision revision = virtualUser.getBimServerClient().getBimsie1ServiceInterface().getRevision(project.getLastRevisionId());
-				long topicId = virtualUser.getBimServerClient().getBimsie1ServiceInterface().download(project.getLastRevisionId(), serializer.getOid(), true, sync);
+				
+//				Query query = new Query();
+
+				// TODO
+				long topicId = -1;//virtualUser.getBimServerClient().getBimsie1ServiceInterface().downloadByNewJsonQuery(Collections.singleton(project.getLastRevisionId()), query, serializer.getOid(), sync);
 				SActionState state = virtualUser.getBimServerClient().getRegistry().getProgress(topicId).getState();
 				while (state != SActionState.FINISHED && state != SActionState.AS_ERROR) {
 					try {

@@ -34,6 +34,7 @@ import org.bimserver.shared.AuthenticationInfo;
 import org.bimserver.shared.BimServerClientFactory;
 import org.bimserver.shared.ChannelConnectionException;
 import org.bimserver.shared.InterfaceList;
+import org.bimserver.shared.exceptions.BimServerClientException;
 import org.bimserver.shared.exceptions.PluginException;
 import org.bimserver.shared.exceptions.ServerException;
 import org.bimserver.shared.exceptions.ServiceException;
@@ -86,6 +87,8 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 			protocolBuffersBimServerClientFactory = new ProtocolBuffersBimServerClientFactory("localhost", 8020, 8080, protocolBuffersMetaData, metaDataManager);
 			soapBimServerClientFactory = new SoapBimServerClientFactory("http://localhost:" + port, servicesMap, metaDataManager);
 		} catch (PluginException e) {
+			e.printStackTrace();
+		} catch (BimServerClientException e) {
 			e.printStackTrace();
 		}
 	}
