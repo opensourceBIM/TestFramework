@@ -35,6 +35,6 @@ public class CreateSubProjectAction extends Action {
 		SProject parentProject = virtualUser.getRandomProject();
 		String name = "Project " + randomString();
 		virtualUser.getActionResults().setText("Creating new project: " + name + " as subproject of " + parentProject.getName());
-		virtualUser.getBimServerClient().getBimsie1ServiceInterface().addProjectAsSubProject(name, parentProject.getOid(), "ifc2x3tc1");
+		virtualUser.getBimServerClient().getServiceInterface().addProjectAsSubProject(name, parentProject.getOid(), "ifc2x3tc1");
 	}
 }

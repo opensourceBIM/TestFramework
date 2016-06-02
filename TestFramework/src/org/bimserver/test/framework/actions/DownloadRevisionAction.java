@@ -60,19 +60,19 @@ public class DownloadRevisionAction extends Action {
 			if (project.getLastRevisionId() != -1) {
 				SSerializerPluginConfiguration serializer = null;
 				if (serializerName != null) {
-					serializer = virtualUser.getBimServerClient().getBimsie1ServiceInterface().getSerializerByName(serializerName);
+					serializer = virtualUser.getBimServerClient().getServiceInterface().getSerializerByName(serializerName);
 				} else {
 					List<SSerializerPluginConfiguration> allSerializers = virtualUser.getBimServerClient().getPluginInterface().getAllSerializers(true);
 					serializer = allSerializers.get(nextInt(allSerializers.size()));
 				}
 				boolean sync = nextBoolean();
 				virtualUser.getActionResults().setText("Downloading revision " + project.getLastRevisionId() + " of project " + project.getName() + " with serializer " + serializer.getName() + " sync: " + sync);
-				SRevision revision = virtualUser.getBimServerClient().getBimsie1ServiceInterface().getRevision(project.getLastRevisionId());
+				SRevision revision = virtualUser.getBimServerClient().getServiceInterface().getRevision(project.getLastRevisionId());
 				
 //				Query query = new Query();
 
 				// TODO
-				long topicId = -1;//virtualUser.getBimServerClient().getBimsie1ServiceInterface().downloadByNewJsonQuery(Collections.singleton(project.getLastRevisionId()), query, serializer.getOid(), sync);
+				long topicId = -1;//virtualUser.getBimServerClient().getServiceInterface().downloadByNewJsonQuery(Collections.singleton(project.getLastRevisionId()), query, serializer.getOid(), sync);
 				SActionState state = virtualUser.getBimServerClient().getRegistry().getProgress(topicId).getState();
 				while (state != SActionState.FINISHED && state != SActionState.AS_ERROR) {
 					try {

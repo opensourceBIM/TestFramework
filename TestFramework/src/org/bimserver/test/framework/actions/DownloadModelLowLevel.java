@@ -48,7 +48,7 @@ public class DownloadModelLowLevel extends Action {
 			SRevision randomRevision = virtualUser.getRandomRevision();
 			if (randomRevision != null) {
 				IfcModelInterface model;
-				SProject project = virtualUser.getBimServerClient().getBimsie1ServiceInterface().getProjectByPoid(randomRevision.getProjectId());
+				SProject project = virtualUser.getBimServerClient().getServiceInterface().getProjectByPoid(randomRevision.getProjectId());
 				model = virtualUser.getBimServerClient().getModel(project, randomRevision.getOid(), true, false);
 				PluginManager pluginManager = getTestFramework().getPluginManager();
 				SerializerPlugin serializerPlugin = pluginManager.getSerializerPlugin("org.bimserver.ifc.step.serializer.IfcStepSerializerPlugin", true);

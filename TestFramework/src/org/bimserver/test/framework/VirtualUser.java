@@ -74,7 +74,7 @@ public class VirtualUser extends Thread {
 			while (running && (nrRunsPerVirtualUser == -1 || nrRuns < nrRunsPerVirtualUser)) {
 				Action action = null;
 				try {
-					if (!bimServerClient.getBimsie1AuthInterface().isLoggedIn()) {
+					if (!bimServerClient.getAuthInterface().isLoggedIn()) {
 						actionResults = new ActionResults();
 						action = new LoginAction(testFramework);
 						action.execute(this);
@@ -151,12 +151,12 @@ public class VirtualUser extends Thread {
 
 	public SProject getRandomProject() throws UserException, PublicInterfaceNotFoundException {
 		try {
-			List<SProject> allProjects = bimServerClient.getBimsie1ServiceInterface().getAllProjects(false, true);
+			List<SProject> allProjects = bimServerClient.getServiceInterface().getAllProjects(false, true);
 			if (allProjects == null || allProjects.isEmpty()) {
 				CreateProjectAction createProjectAction = new CreateProjectAction(testFramework);
 				createProjectAction.execute(this);
 			}
-			allProjects = bimServerClient.getBimsie1ServiceInterface().getAllProjects(false, true);
+			allProjects = bimServerClient.getServiceInterface().getAllProjects(false, true);
 			if (!allProjects.isEmpty()) {
 				return allProjects.get(random.nextInt(allProjects.size()));
 			}
@@ -192,9 +192,9 @@ public class VirtualUser extends Thread {
 			CheckinAction checkinAction = new CheckinAction(testFramework, new CheckinSettings());
 			checkinAction.execute(this);
 		}
-		project = getBimServerClient().getBimsie1ServiceInterface().getProjectByPoid(project.getOid());
+		project = getBimServerClient().getServiceInterface().getProjectByPoid(project.getOid());
 		if (project.getLastRevisionId() != -1) {
-			return bimServerClient.getBimsie1ServiceInterface().getRevision(project.getLastRevisionId());
+			return bimServerClient.getServiceInterface().getRevision(project.getLastRevisionId());
 		}
 		return null;
 	}

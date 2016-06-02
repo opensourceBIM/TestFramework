@@ -40,7 +40,7 @@ public class DumpDataObjects extends Action {
 	public void execute(VirtualUser virtualUser) throws Exception {
 		SRevision revision = virtualUser.getRandomRevision();
 		if (revision != null) {
-			List<SDataObject> dataObjects = virtualUser.getBimServerClient().getBimsie1LowLevelInterface().getDataObjects(revision.getOid());
+			List<SDataObject> dataObjects = virtualUser.getBimServerClient().getLowLevelInterface().getDataObjects(revision.getOid());
 			virtualUser.getLogger().info(dataObjects.size() + " dataobjects");
 			if (verbose) {
 				for (SDataObject dataObject : dataObjects) {

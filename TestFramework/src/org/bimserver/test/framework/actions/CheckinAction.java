@@ -45,7 +45,7 @@ public class CheckinAction extends Action {
 		Path randomFile = getTestFramework().getTestFile();
 		String fileName = randomFile.getFileName().toString();
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-		SDeserializerPluginConfiguration suggestedDeserializerForExtension = virtualUser.getBimServerClient().getBimsie1ServiceInterface().getSuggestedDeserializerForExtension(extension, project.getOid());
+		SDeserializerPluginConfiguration suggestedDeserializerForExtension = virtualUser.getBimServerClient().getServiceInterface().getSuggestedDeserializerForExtension(extension, project.getOid());
 		
 		if (suggestedDeserializerForExtension == null) {
 			virtualUser.getActionResults().setText("No deserializer found for extension " + extension + " in file " + fileName);

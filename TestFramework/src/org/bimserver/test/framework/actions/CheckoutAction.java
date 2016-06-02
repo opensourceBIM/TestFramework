@@ -45,7 +45,7 @@ public class CheckoutAction extends Action {
 			SSerializerPluginConfiguration serializer = allSerializers.get(nextInt(allSerializers.size()));
 			boolean sync = nextBoolean();
 			virtualUser.getActionResults().setText("Checking out revision " + project.getLastRevisionId() + " of project " + project.getName() + " with serializer " + serializer.getName() + " sync: " + sync);
-			long topicId = virtualUser.getBimServerClient().getBimsie1ServiceInterface().checkout(project.getLastRevisionId(), serializer.getOid(), sync);
+			long topicId = virtualUser.getBimServerClient().getServiceInterface().checkout(project.getLastRevisionId(), serializer.getOid(), sync);
 			SLongActionState downloadState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
 			while (downloadState.getState() != SActionState.FINISHED) {
 				try {
@@ -55,7 +55,7 @@ public class CheckoutAction extends Action {
 				downloadState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
 			}
 			virtualUser.getLogger().info("Done preparing checkout, downloading");
-			SDownloadResult downloadData = virtualUser.getBimServerClient().getBimsie1ServiceInterface().getDownloadData(topicId);
+			SDownloadResult downloadData = virtualUser.getBimServerClient().getServiceInterface().getDownloadData(topicId);
 			if (downloadData != null) {
 				try {
 					ByteArrayOutputStream data = new ByteArrayOutputStream();
