@@ -41,7 +41,7 @@ import org.bimserver.shared.exceptions.ServiceException;
 import org.bimserver.shared.exceptions.UserException;
 import org.bimserver.shared.meta.SServicesMap;
 import org.bimserver.shared.pb.ProtocolBuffersMetaData;
-import org.bimserver.shared.reflector.FileBasedReflectorFactoryBuilder;
+import org.bimserver.shared.reflector.RealtimeReflectorFactoryBuilder;
 import org.bimserver.shared.reflector.ReflectorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +72,7 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 		
 		SServicesMap servicesMap = InterfaceList.createSServicesMap();
 		
-		FileBasedReflectorFactoryBuilder factoryBuilder = new FileBasedReflectorFactoryBuilder();
+		RealtimeReflectorFactoryBuilder factoryBuilder = new RealtimeReflectorFactoryBuilder(servicesMap);
 		ReflectorFactory reflectorFactory = factoryBuilder.newReflectorFactory();
 		
 		try {
@@ -84,7 +84,7 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 			jsonBimServerClientFactory = new JsonBimServerClientFactory("http://localhost:" + port, servicesMap, new JsonSocketReflectorFactory(servicesMap), reflectorFactory, metaDataManager);
 			ProtocolBuffersMetaData protocolBuffersMetaData = new ProtocolBuffersMetaData();
 			protocolBuffersMetaData.load(servicesMap, ProtocolBuffersBimServerClientFactory.class);
-			protocolBuffersBimServerClientFactory = new ProtocolBuffersBimServerClientFactory("localhost", 8020, 8080, protocolBuffersMetaData, metaDataManager);
+			protocolBuffersBimServerClientFactory = new ProtocolBuffersBimServerClientFactory("localhost", 8020, 8080, protocolBuffersMetaData, metaDataManager, servicesMap);
 			soapBimServerClientFactory = new SoapBimServerClientFactory("http://localhost:" + port, servicesMap, metaDataManager);
 		} catch (PluginException e) {
 			e.printStackTrace();
@@ -124,5 +124,9 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 	@Override
 	public BimServerClient create() throws ServiceException, ChannelConnectionException {
 		return null;
+	}
+
+	@Override
+	public void close() throws Exception {
 	}
 }

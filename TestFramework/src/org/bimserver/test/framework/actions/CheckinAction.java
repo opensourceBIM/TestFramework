@@ -1,32 +1,12 @@
 package org.bimserver.test.framework.actions;
 
-/******************************************************************************
- * Copyright (C) 2009-2015  BIMserver.org
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see {@literal<http://www.gnu.org/licenses/>}.
- *****************************************************************************/
-
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.bimserver.interfaces.objects.SActionState;
 import org.bimserver.interfaces.objects.SDeserializerPluginConfiguration;
 import org.bimserver.interfaces.objects.SLongActionState;
 import org.bimserver.interfaces.objects.SProject;
-import org.bimserver.shared.exceptions.PublicInterfaceNotFoundException;
-import org.bimserver.shared.exceptions.ServerException;
-import org.bimserver.shared.exceptions.UserException;
+import org.bimserver.plugins.services.Flow;
 import org.bimserver.test.framework.TestFramework;
 import org.bimserver.test.framework.VirtualUser;
 
@@ -52,12 +32,12 @@ public class CheckinAction extends Action {
 			return;
 		}
 		
-		boolean sync = !settings.shouldAsync();
+		Flow flow = settings.shouldAsync() ? Flow.ASYNC : Flow.SYNC;
 		boolean merge = settings.shouldMerge();
-		virtualUser.getActionResults().setText("Checking in new revision on project " + project.getName() + " (" + fileName + ") " + "sync: " + sync + ", merge: " + merge);
+		virtualUser.getActionResults().setText("Checking in new revision on project " + project.getName() + " (" + fileName + ") " + "sync: " + flow + ", merge: " + merge);
 		long topicId;
-		topicId = virtualUser.getBimServerClient().checkin(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, sync, randomFile);
-		if (sync) {
+		topicId = virtualUser.getBimServerClient().checkin(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, flow, randomFile);
+		if (flow == Flow.SYNC) {
 			SLongActionState longActionState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
 			if (longActionState.getState() == SActionState.AS_ERROR) {
 				virtualUser.getActionResults().setText("" + longActionState.getErrors());
