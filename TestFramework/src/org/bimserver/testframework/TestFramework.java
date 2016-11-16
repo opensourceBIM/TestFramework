@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class TestFramework {
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestFramework.class);
 
 	public static void main(String[] args) {
@@ -49,7 +50,6 @@ public class TestFramework {
 	}
 
 	private ObjectNode readConfiguration(Path configFile) throws Exception {
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.readValue(configFile.toFile(), ObjectNode.class);
+		return OBJECT_MAPPER.readValue(configFile.toFile(), ObjectNode.class);
 	}
 }

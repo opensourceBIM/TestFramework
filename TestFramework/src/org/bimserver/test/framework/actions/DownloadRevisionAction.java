@@ -72,7 +72,7 @@ public class DownloadRevisionAction extends Action {
 //				Query query = new Query();
 
 				// TODO
-				long topicId = -1;//virtualUser.getBimServerClient().getServiceInterface().downloadByNewJsonQuery(Collections.singleton(project.getLastRevisionId()), query, serializer.getOid(), sync);
+				long topicId = -1;//virtualUser.getBimServerClient().getServiceInterface().download(Collections.singleton(project.getLastRevisionId()), query, serializer.getOid(), sync);
 				SActionState state = virtualUser.getBimServerClient().getRegistry().getProgress(topicId).getState();
 				while (state != SActionState.FINISHED && state != SActionState.AS_ERROR) {
 					try {
