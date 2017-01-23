@@ -22,11 +22,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.bimserver.database.queries.om.Query;
 import org.bimserver.interfaces.objects.SActionState;
 import org.bimserver.interfaces.objects.SProject;
 import org.bimserver.interfaces.objects.SRevision;

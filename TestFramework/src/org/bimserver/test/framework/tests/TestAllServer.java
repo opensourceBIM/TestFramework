@@ -5,9 +5,9 @@ import java.nio.file.Paths;
 import org.bimserver.plugins.OptionsParser;
 import org.bimserver.test.framework.FolderWalker;
 import org.bimserver.test.framework.RandomBimServerClientFactory;
+import org.bimserver.test.framework.RandomBimServerClientFactory.Type;
 import org.bimserver.test.framework.TestConfiguration;
 import org.bimserver.test.framework.TestFramework;
-import org.bimserver.test.framework.RandomBimServerClientFactory.Type;
 import org.bimserver.test.framework.actions.AllActionsFactory;
 
 public class TestAllServer {
