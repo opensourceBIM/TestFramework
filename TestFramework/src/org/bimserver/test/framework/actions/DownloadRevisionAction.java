@@ -82,7 +82,7 @@ public class DownloadRevisionAction extends Action {
 				}
 				virtualUser.getLogger().info("Done preparing download, downloading");
 				try {
-					InputStream downloadData = virtualUser.getBimServerClient().getDownloadData(topicId, serializer.getOid());
+					InputStream downloadData = virtualUser.getBimServerClient().getDownloadData(topicId);
 					if (downloadData != null) {
 						PluginConfiguration pluginConfiguration = new PluginConfiguration(virtualUser.getBimServerClient().getPluginInterface().getPluginSettings(serializer.getOid()));
 						String filename = project.getName() + "." + revision.getId() + "." + pluginConfiguration.getString(SerializerPlugin.EXTENSION);
