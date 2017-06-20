@@ -43,7 +43,7 @@ public class TestCheckin {
 		testConfiguration.setStopNoVirtualUsers(false);
 //		testConfiguration.setNrRunsPerVirtualUser(30);
 
-		testConfiguration.setHomeDir(Paths.get("E:\\Testing"));
+		testConfiguration.setHomeDir(Paths.get("D:\\BIMserverTest"));
 		testConfiguration.setActionFactory(new RandomActionFactory(
 			new ActionCreater(){
 				public Action create() {
@@ -78,10 +78,10 @@ public class TestCheckin {
 		));
 //		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
 		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
-		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("E:\\Ifc Files"), testFramework));
+		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\Dropbox\\Shared\\IFC files"), testFramework));
 //		testConfiguration.setTestFileProvider(new FolderWalker(new File("C:\\Users\\Ruben de Laat\\Documents\\My Dropbox\\Logic Labs\\Clients\\TNO\\ifc selected")));
-		testConfiguration.setOutputFolder(Paths.get("E:\\output"));
-		testConfiguration.setNrVirtualUsers(4);
+		testConfiguration.setOutputFolder(Paths.get("D:\\output"));
+		testConfiguration.setNrVirtualUsers(7);
 		
 		testFramework.start();
 	}

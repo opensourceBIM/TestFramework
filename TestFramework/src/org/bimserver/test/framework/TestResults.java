@@ -22,6 +22,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -49,18 +51,25 @@ public class TestResults {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		startTable("Virtual User", "Action", "Result", "Message");
+		startTable("ID", "Start", "Virtual User", "Action", "Result", "Message", "Extra");
 	}
 
 	public synchronized void addRow(ActionResults actionResults, VirtualUser virtualUser, Action action, String... values) {
+		DateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		String type = actionResults.getType();
 		String className = action == null ? "Unknown" : action.getClass().getSimpleName();
 		out.println("<tr user=\"" + virtualUser.getName() + "\" action=\"" + className + "\" type=\"" + type + "\">");
 		out.println("<td>" + rowNr + ".</td>");
+		out.println("<td>" + simpleDateFormat.format(action.getStartTime().getTime()) + "</td>");
 		out.println("<td>" + virtualUser.getName() + "</td>");
 		out.println("<td>" + className + "</td>");
 		out.println("<td class=\"type_" + type + "\">" + type + "</td>");
 		out.println("<td>" + actionResults.getText() + "</td>");
+		if (actionResults.getExtra() == null) {
+			out.println("<td></td>");
+		} else {
+			out.println("<td>" + actionResults.getExtra() + "</td>");
+		}
 		out.println("</tr>");
 		out.flush();
 		rowNr++;

@@ -21,4 +21,5 @@ import java.nio.file.Path;
 
 public interface TestFileProvider {
 	Path getNewFile();
+	void giveBack(Path randomFile);
 }

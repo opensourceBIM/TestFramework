@@ -1,5 +1,9 @@
 package org.bimserver.test.framework.actions;
 
+import java.util.List;
+
+import org.bimserver.interfaces.objects.SRenderEnginePluginConfiguration;
+
 /******************************************************************************
  * Copyright (C) 2009-2017  BIMserver.org
  * 
@@ -37,6 +41,12 @@ public class CreateUserAction extends Action {
 		virtualUser.getActionResults().setText("Creating new user: " + username);
 		SUser user = virtualUser.getBimServerClient().getServiceInterface().addUser(username, randomString(), SUserType.values()[nextInt(SUserType.values().length)], nextBoolean(), "");
 		virtualUser.getBimServerClient().getBimServerAuthInterface().changePassword(user.getOid(), "", "test");
+		List<SRenderEnginePluginConfiguration> allRenderEngines = virtualUser.getBimServerClient().getPluginInterface().getAllRenderEngines(true);
+		for (SRenderEnginePluginConfiguration sRenderEnginePluginConfiguration : allRenderEngines) {
+			if (sRenderEnginePluginConfiguration.getName().equals("NOP Render Engine")) {
+				virtualUser.getBimServerClient().getPluginInterface().setDefaultRenderEngine(sRenderEnginePluginConfiguration.getOid());
+			}
+		}
 		virtualUser.addUsername(username);
 	}
 	

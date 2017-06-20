@@ -47,6 +47,7 @@ public class VirtualUser extends Thread {
 	private volatile boolean running;
 	private final List<String> usernames = new ArrayList<String>();
 	private ActionResults actionResults;
+	private String username;
 
 	public VirtualUser(TestFramework testFramework, BimServerClientInterface bimServerClient, String name) {
 		setName(name);
@@ -82,7 +83,9 @@ public class VirtualUser extends Thread {
 						action = testFramework.getTestConfiguration().getActionFactory().createAction();
 						actionResults = new ActionResults();
 						action.execute(this);
-						actionResults.setType("OKE");
+						if (actionResults.getType() == null) {
+							actionResults.setType("OKE");
+						}
 						String text = actionResults.getText();
 						LOGGER.info(getName() + " Success: " + (text == null || text.equals("") ? action.getClass().getSimpleName() : text));
 						testFramework.getResults().addRow(actionResults, this, action);
@@ -105,7 +108,7 @@ public class VirtualUser extends Thread {
 					} else {
 						LOGGER.info(getName() + " ServerException: " + e.getMessage());
 						e.printStackTrace();
-						actionResults.setText(e.getMessage());
+						actionResults.setText(e.getMessage() + (e.getCause() != null ? (" (" + e.getCause().getMessage() + ")") : ""));
 						actionResults.setType("ERROR");
 						testFramework.getResults().addRow(actionResults, this, action);
 						LOGGER.info(e.getMessage());
@@ -202,5 +205,13 @@ public class VirtualUser extends Thread {
 	public void shutdown() {
 		running = false;
 		interrupt();
+	}
+
+	public void setUserName(String username) {
+		this.username = username;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }

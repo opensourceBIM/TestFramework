@@ -18,9 +18,16 @@ package org.bimserver.test.framework;
  *****************************************************************************/
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
+import org.bimserver.utils.Formatters;
 import org.bimserver.utils.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,31 +35,54 @@ import org.slf4j.LoggerFactory;
 public class FolderWalker implements TestFileProvider {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FolderWalker.class);
-	private volatile int current = 0;
-	private List<Path> listFiles;
+	private Queue<Path> listFiles;
 	private final TestFramework testFramework;
 	private int lastPerc;
+	private int done;
+	private int total;
+	private long totalByteSize;
 
 	public FolderWalker(Path folder, TestFramework testFramework) {
 		this.testFramework = testFramework;
 		try {
-			this.listFiles = PathUtils.list(folder);
+			this.listFiles = new ArrayBlockingQueue<>(1000000);
+			
+			processFolder(folder);
+			
+			LOGGER.info("Total size of IFC files: " + Formatters.bytesToString(totalByteSize) + " in " + total + " files");
+			
+			this.total = this.listFiles.size();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void processFolder(Path folder) throws IOException {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder)) {
+			for (final Iterator<Path> it = stream.iterator(); it.hasNext();) {
+				Path path = it.next();
+				if (Files.isDirectory(path)) {
+					processFolder(path);
+				} else {
+					if (path.getFileName().toString().toLowerCase().endsWith(".ifc") || path.getFileName().toString().toLowerCase().endsWith(".ifcxml") || path.getFileName().toString().toLowerCase().endsWith(".ifczip")) {
+						listFiles.add(path);
+						totalByteSize += Files.size(path);
+						total++;
+					}
+				}
+			}
+		}		
+	}
+
 	@Override
 	public synchronized Path getNewFile() {
-		if (current >= listFiles.size()) {
+		Path poll = listFiles.poll();
+		if (poll == null) {
 			testFramework.stop();
 			return null;
 		}
-		Path next = listFiles.get(current++);
-//		if (!next.isFile()) {
-//			return getNewFile();
-//		}
-		int percentage = current / listFiles.size();
+		done++;
+		int percentage = (int)(100.0 * done / total);
 		if (percentage > lastPerc) {
 			LOGGER.info("");
 			LOGGER.info("");
@@ -61,6 +91,13 @@ public class FolderWalker implements TestFileProvider {
 			LOGGER.info("");
 			lastPerc = percentage;
 		}
-		return next;
+		return poll;
+	}
+
+	@Override
+	public synchronized void giveBack(Path randomFile) {
+		LOGGER.info("Giving back file " + randomFile);
+		done--;
+		listFiles.add(randomFile);
 	}
 }

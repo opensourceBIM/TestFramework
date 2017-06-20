@@ -32,12 +32,12 @@ public class TestAll {
 		TestConfiguration testConfiguration = new TestConfiguration();
 		TestFramework testFramework = new TestFramework(testConfiguration, new OptionsParser(args).getPluginDirectories());
 
-		testConfiguration.setHomeDir(Paths.get("E:\\Test"));
+		testConfiguration.setHomeDir(Paths.get("D:\\BIMserverTest"));
 		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
 		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
-		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\ifcfiles"), testFramework));
+		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\Dropbox\\Shared\\IFC files public"), testFramework));
 		testConfiguration.setOutputFolder(Paths.get("E:\\Output"));
-		testConfiguration.setNrVirtualUsers(8);
+		testConfiguration.setNrVirtualUsers(4);
 		testConfiguration.setStopNoVirtualUsers(false);
 		testConfiguration.setStopOnServerException(false);
 		testConfiguration.setNrEngineProcesses(8);

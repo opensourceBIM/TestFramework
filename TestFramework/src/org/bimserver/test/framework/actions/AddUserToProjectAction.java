@@ -35,11 +35,15 @@ public class AddUserToProjectAction extends Action {
 	public void execute(VirtualUser virtualUser) throws ServerException, UserException, PublicInterfaceNotFoundException {
 		SProject project = virtualUser.getRandomProject();
 		SUser user = virtualUser.getRandomUser();
-		virtualUser.getActionResults().setText("Adding user " + user.getName() + " to project " + project.getName());
-		try {
-			virtualUser.getBimServerClient().getServiceInterface().addUserToProject(user.getOid(), project.getOid());
-		} catch (PublicInterfaceNotFoundException e) {
-			e.printStackTrace();
+		if (user != null && project != null) {
+			virtualUser.getActionResults().setText("Adding user " + user.getName() + " to project " + project.getName());
+			try {
+				virtualUser.getBimServerClient().getServiceInterface().addUserToProject(user.getOid(), project.getOid());
+			} catch (PublicInterfaceNotFoundException e) {
+				e.printStackTrace();
+			}
+		} else {
+			virtualUser.getActionResults().setText("No user or no project, skipping");
 		}
 	}
 }

@@ -30,7 +30,7 @@ public class AllActionsFactory implements ActionFactory {
 	public AllActionsFactory(TestFramework testFramework) {
 		add(new CompareAction(testFramework));
 		add(new DownloadModelLowLevel(testFramework));
-		add(new DumpDataObjects(testFramework));
+//		add(new DumpDataObjects(testFramework));
 		add(new AddUserToProjectAction(testFramework));
 		add(new CheckinAction(testFramework, new CheckinSettings()));
 		add(new CheckoutAction(testFramework));

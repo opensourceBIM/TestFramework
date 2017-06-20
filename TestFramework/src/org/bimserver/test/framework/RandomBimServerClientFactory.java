@@ -1,5 +1,8 @@
 package org.bimserver.test.framework;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
 /******************************************************************************
  * Copyright (C) 2009-2017  BIMserver.org
  * 
@@ -94,6 +97,13 @@ public class RandomBimServerClientFactory implements BimServerClientFactory {
 		
 		try {
 			Path home = Paths.get("home");
+			if (!Files.exists(home)) {
+				try {
+					Files.createDirectories(home);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			PluginManager pluginManager = LocalDevPluginLoader.createPluginManager(home);
 			MetaDataManager metaDataManager = new MetaDataManager(home.resolve("tmp"));
 			pluginManager.setMetaDataManager(metaDataManager);

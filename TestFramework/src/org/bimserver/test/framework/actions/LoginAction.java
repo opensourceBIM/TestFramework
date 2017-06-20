@@ -1,5 +1,8 @@
 package org.bimserver.test.framework.actions;
 
+import org.bimserver.shared.ChannelConnectionException;
+import org.bimserver.shared.UsernamePasswordAuthenticationInfo;
+
 /******************************************************************************
  * Copyright (C) 2009-2017  BIMserver.org
  * 
@@ -34,11 +37,18 @@ public class LoginAction extends Action {
 		if (nextInt(virtualUser.getUserNames().size() + 1) == 0) {
 			virtualUser.getActionResults().setText("Logging in as admin@bimserver.org");
 			virtualUser.getBimServerClient().getAuthInterface().login("admin@bimserver.org", "admin");
+			virtualUser.setUserName("admin@bimserver.org");
 		} else {
 			if (!virtualUser.getUserNames().isEmpty()) {
 				String username = virtualUser.getRandomUserName();
 				virtualUser.getActionResults().setText("Logging in as " + username);
-				virtualUser.getBimServerClient().getAuthInterface().login(username, "test");
+				try {
+					virtualUser.getBimServerClient().setAuthentication(new UsernamePasswordAuthenticationInfo(username, "test"));
+				} catch (ChannelConnectionException e) {
+					e.printStackTrace();
+				}
+				virtualUser.getBimServerClient().authenticate();
+				virtualUser.setUserName(username);
 			}
 		}
 	}

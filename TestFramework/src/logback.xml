@@ -80,7 +80,7 @@
 		<appender-ref ref="STDERR" />
 	</logger>
 
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="STDERR" />
 		<appender-ref ref="STDOUT" />
 	</root>

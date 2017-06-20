@@ -24,6 +24,7 @@ import org.bimserver.interfaces.objects.SDeserializerPluginConfiguration;
 import org.bimserver.interfaces.objects.SLongActionState;
 import org.bimserver.interfaces.objects.SProject;
 import org.bimserver.plugins.services.Flow;
+import org.bimserver.shared.exceptions.UserException;
 import org.bimserver.test.framework.TestFramework;
 import org.bimserver.test.framework.VirtualUser;
 
@@ -44,36 +45,56 @@ public class CheckinAction extends Action {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 		SDeserializerPluginConfiguration suggestedDeserializerForExtension = virtualUser.getBimServerClient().getServiceInterface().getSuggestedDeserializerForExtension(extension, project.getOid());
 		
+		if (virtualUser.getUsername() == null || virtualUser.getUsername().equals("admin@bimserver.org")) {
+			virtualUser.getActionResults().setText("Skipping checking because not logged-in as non-admin");
+			getTestFramework().retryIfcFile(randomFile);
+			return;
+		}
+		
 		if (suggestedDeserializerForExtension == null) {
 			virtualUser.getActionResults().setText("No deserializer found for extension " + extension + " in file " + fileName);
 			return;
 		}
 		
-		Flow flow = settings.shouldAsync() ? Flow.ASYNC : Flow.SYNC;
-		boolean merge = settings.shouldMerge();
-		virtualUser.getActionResults().setText("Checking in new revision on project " + project.getName() + " (" + fileName + ") " + "sync: " + flow + ", merge: " + merge);
-		long topicId;
-		topicId = virtualUser.getBimServerClient().checkin(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, flow, randomFile);
-		if (flow == Flow.SYNC) {
-			SLongActionState longActionState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
-			if (longActionState.getState() == SActionState.AS_ERROR) {
-				virtualUser.getActionResults().setText("" + longActionState.getErrors());
-			}
-			virtualUser.getBimServerClient().getServiceInterface().cleanupLongAction(topicId);
-		} else {
-			while (true) {
-				SLongActionState checkinState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
-				if (checkinState.getState() == SActionState.FINISHED || checkinState.getState() == SActionState.UNKNOWN) {
-					virtualUser.getBimServerClient().getServiceInterface().cleanupLongAction(topicId);
-					break;
+		try {
+			Flow flow = settings.shouldAsync() ? Flow.ASYNC : Flow.SYNC;
+			boolean merge = settings.shouldMerge();
+			virtualUser.getActionResults().setText("Checking in new revision on project " + project.getName() + " (" + fileName + ") " + "sync: " + flow + ", merge: " + merge);
+			long topicId;
+			topicId = virtualUser.getBimServerClient().checkin(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, flow, randomFile);
+			if (flow == Flow.SYNC) {
+				SLongActionState longActionState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
+				if (longActionState.getState() == SActionState.AS_ERROR) {
+					virtualUser.getActionResults().setText("" + longActionState.getErrors());
+					virtualUser.getActionResults().setExtra(fileName);
+					virtualUser.getActionResults().setType("ERROR");
 				}
-				Thread.sleep(1000);
+				virtualUser.getBimServerClient().getServiceInterface().cleanupLongAction(topicId);
+			} else {
+				while (true) {
+					SLongActionState checkinState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
+					if (checkinState.getState() == SActionState.FINISHED || checkinState.getState() == SActionState.UNKNOWN) {
+						virtualUser.getBimServerClient().getServiceInterface().cleanupLongAction(topicId);
+						break;
+					} else if (checkinState.getState() == SActionState.AS_ERROR) {
+						virtualUser.getActionResults().setText("" + checkinState.getErrors());
+						virtualUser.getActionResults().setExtra(fileName);
+						virtualUser.getActionResults().setType("ERROR");
+						break;
+					}
+					Thread.sleep(1000);
+				}
 			}
+		} catch (UserException e) {
+			if (e.getMessage().contains("Checkin in progress")) {
+				getTestFramework().retryIfcFile(randomFile);
+			}
+			throw e;
 		}
 	}
 	
 	@Override
 	public int getWeight() {
-		return 10;
+		return 1;
 	}
 }

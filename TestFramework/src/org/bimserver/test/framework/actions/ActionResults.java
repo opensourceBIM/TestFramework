@@ -21,6 +21,7 @@ public class ActionResults {
 
 	private String text;
 	private String type;
+	private String extra;
 
 	public ActionResults(String text) {
 		this.text = text;
@@ -44,5 +45,13 @@ public class ActionResults {
 
 	public String getType() {
 		return type;
+	}
+
+	public String getExtra() {
+		return extra;
+	}
+
+	public void setExtra(String extra) {
+		this.extra = extra;
 	}
 }

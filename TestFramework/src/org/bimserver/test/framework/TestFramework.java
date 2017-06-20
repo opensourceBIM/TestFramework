@@ -81,8 +81,8 @@ public class TestFramework {
 			BimServerConfig bimServerConfig = new BimServerConfig();
 			bimServerConfig.setStartEmbeddedWebServer(true);
 			bimServerConfig.setHomeDir(testConfiguration.getHomeDir());
-			bimServerConfig.setPort(6060);
-			Path workspaceDir = Paths.get(".");
+			bimServerConfig.setPort(testConfiguration.getPort());
+			Path workspaceDir = Paths.get("C:\\Git\\BIMserver6\\BimServer");
 			bimServerConfig.setDevelopmentBaseDir(workspaceDir);
 			LOGGER.info("Workspace Dir: " + workspaceDir.toAbsolutePath().toString());
 			bimServerConfig.setResourceFetcher(new TestFrameworkResourceFetcher(workspaceDir));
@@ -94,7 +94,7 @@ public class TestFramework {
 				LocalDevPluginLoader.loadPlugins(bimServer.getPluginManager(), pluginDirectories);
 				// Convenience, setup the server to make sure it is in RUNNING state
 				if (bimServer.getServerInfo().getServerState() == ServerState.NOT_SETUP) {
-					bimServer.getService(AdminInterface.class).setup("http://" + testConfiguration.getHost() + ":" + testConfiguration.getPort(), "Administrator", "admin@bimserver.org", "admin", null, null, null);
+					bimServer.getService(AdminInterface.class).setup("http://" + testConfiguration.getHost() + ":" + testConfiguration.getPort(), "test", "test", "test", "Administrator", "admin@bimserver.org", "admin");
 					bimServer.getService(SettingsInterface.class).setGenerateGeometryOnCheckin(false);
 					bimServer.getService(SettingsInterface.class).setSendConfirmationEmailAfterRegistration(false);
 				}
@@ -104,19 +104,20 @@ public class TestFramework {
 				SServerSettings serverSettings = bimServer.getService(SettingsInterface.class).getServerSettings();
 				serverSettings.setRenderEngineProcesses(testConfiguration.getNrEngineProcesses());
 				serverSettings.setPluginStrictVersionChecking(false);
+				serverSettings.setStoreLastLogin(false);
 				bimServer.getService(SettingsInterface.class).setServerSettings(serverSettings);
 				
 				String repository = "http://central.maven.org/maven2";
 				
 				PluginInterface pluginInterface = bimServer.getService(PluginInterface.class);
 				
-				installPlugin(repository, "org.opensourcebim", "bimserverapi", pluginInterface);
-				installPlugin(repository, "org.opensourcebim", "bimsurfer", pluginInterface);
-				installPlugin(repository, "org.opensourcebim", "ifcplugins", pluginInterface);
-				installPlugin(repository, "org.opensourcebim", "binaryserializers", pluginInterface);
-				installPlugin(repository, "org.opensourcebim", "ifcopenshellplugin", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "bimserverapi", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "bimsurfer", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "ifcplugins", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "binaryserializers", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "ifcopenshellplugin", pluginInterface);
 //				installPlugin(repository, "org.opensourcebim", "ifcengine", pluginInterface);
-				installPlugin(repository, "org.opensourcebim", "bimviews", pluginInterface);
+//				installPlugin(repository, "org.opensourcebim", "bimviews", pluginInterface);
 			} catch (Exception e) {
 				LOGGER.error("", e);
 			}
@@ -141,14 +142,18 @@ public class TestFramework {
 	}
 
 	private void installPlugin(String repository, String groupId, String artifactId, PluginInterface pluginInterface) throws UserException, ServerException {
-		SPluginBundle pluginBundle = pluginInterface.getPluginBundle(repository, groupId, artifactId);
-		SPluginBundleVersion latestVersion = pluginBundle.getLatestVersion();
-		List<SPluginInformation> plugins = pluginInterface.getPluginInformation(repository, groupId, artifactId, latestVersion.getVersion());
-		for (SPluginInformation pluginInformation : plugins) {
-			pluginInformation.setInstallForAllUsers(true);
-			pluginInformation.setInstallForNewUsers(true);
+		try {
+			SPluginBundle pluginBundle = pluginInterface.getPluginBundle(repository, groupId, artifactId);
+			SPluginBundleVersion latestVersion = pluginBundle.getLatestVersion();
+			List<SPluginInformation> plugins = pluginInterface.getPluginInformation(repository, groupId, artifactId, latestVersion.getVersion());
+			for (SPluginInformation pluginInformation : plugins) {
+				pluginInformation.setInstallForAllUsers(true);
+				pluginInformation.setInstallForNewUsers(true);
+			}
+			pluginInterface.installPluginBundle(repository, groupId, artifactId, latestVersion.getVersion(), plugins);
+		} catch (UserException e) {
+			LOGGER.warn(e.getMessage());
 		}
-		pluginInterface.installPluginBundle(repository, groupId, artifactId, latestVersion.getVersion(), plugins);
 	}
 
 	public synchronized Path getTestFile() {
@@ -200,5 +205,9 @@ public class TestFramework {
 
 	public Mode getMode() {
 		return mode;
+	}
+
+	public void retryIfcFile(Path randomFile) {
+		testConfiguration.getTestFileProvider().giveBack(randomFile);
 	}
 }

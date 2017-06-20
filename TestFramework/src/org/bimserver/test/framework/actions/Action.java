@@ -1,5 +1,7 @@
 package org.bimserver.test.framework.actions;
 
+import java.util.GregorianCalendar;
+
 /******************************************************************************
  * Copyright (C) 2009-2017  BIMserver.org
  * 
@@ -25,6 +27,7 @@ import org.bimserver.test.framework.VirtualUser;
 public abstract class Action {
 	private final TestFramework testFramework;
 	private Random random;
+	private GregorianCalendar startTime = new GregorianCalendar();
 
 	public Action(TestFramework testFramework) {
 		this.testFramework = testFramework;
@@ -59,5 +62,9 @@ public abstract class Action {
 
 	public int nextInt(int max) {
 		return random.nextInt(max);
+	}
+
+	public GregorianCalendar getStartTime() {
+		return startTime;
 	}
 }
