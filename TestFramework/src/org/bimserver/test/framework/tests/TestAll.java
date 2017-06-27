@@ -19,6 +19,7 @@ package org.bimserver.test.framework.tests;
 
 import java.nio.file.Paths;
 
+import org.apache.commons.lang.SystemUtils;
 import org.bimserver.plugins.OptionsParser;
 import org.bimserver.test.framework.FolderWalker;
 import org.bimserver.test.framework.RandomBimServerClientFactory;
@@ -32,11 +33,17 @@ public class TestAll {
 		TestConfiguration testConfiguration = new TestConfiguration();
 		TestFramework testFramework = new TestFramework(testConfiguration, new OptionsParser(args).getPluginDirectories());
 
-		testConfiguration.setHomeDir(Paths.get("D:\\BIMserverTest"));
 		testConfiguration.setActionFactory(new AllActionsFactory(testFramework));
 		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
-		testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\Dropbox\\Shared\\IFC files public"), testFramework));
-		testConfiguration.setOutputFolder(Paths.get("E:\\Output"));
+		if (SystemUtils.IS_OS_LINUX) {
+			testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("/var/ifc"), testFramework));
+			testConfiguration.setOutputFolder(Paths.get("/var/www/test.bimserver.logic-labs.nl"));
+			testConfiguration.setHomeDir(Paths.get("/var/bimservertest"));
+		} else {
+			testConfiguration.setHomeDir(Paths.get("D:\\BIMserverTest"));
+			testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\Dropbox\\Shared\\IFC files public"), testFramework));
+			testConfiguration.setOutputFolder(Paths.get("E:\\Output"));
+		}
 		testConfiguration.setNrVirtualUsers(4);
 		testConfiguration.setStopNoVirtualUsers(false);
 		testConfiguration.setStopOnServerException(false);

@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -36,9 +37,9 @@ public class TestResults {
 	private PrintWriter out;
 	private int rowNr;
 
-	public TestResults() {
+	public TestResults(Path outputPath) {
 		try {
-			out = new PrintWriter(new File("results.html"));
+			out = new PrintWriter(outputPath.resolve("results.html").toFile());
 			File f = new File("static/header.html");
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			if (f.exists()) {

@@ -50,7 +50,7 @@ public class TestFramework {
 	
 	private final Set<VirtualUser> virtualUsers = new HashSet<VirtualUser>();
 	private final TestConfiguration testConfiguration;
-	private final TestResults testResults = new TestResults();
+	private final TestResults testResults;
 	private BimServer bimServer;
 
 	private Path[] pluginDirectories;
@@ -65,6 +65,7 @@ public class TestFramework {
 	public TestFramework(TestConfiguration testConfiguration, Path[] pluginDirectories) {
 		this.testConfiguration = testConfiguration;
 		this.pluginDirectories = pluginDirectories;
+		testResults = new TestResults(testConfiguration.getOutputFolder());
 	}
 	
 	public void start() {
