@@ -37,7 +37,7 @@ public class TestAll {
 		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
 		if (SystemUtils.IS_OS_LINUX) {
 			testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("/var/ifc"), testFramework));
-			testConfiguration.setOutputFolder(Paths.get("/var/www/test.bimserver.logic-labs.nl"));
+			testConfiguration.setOutputFolder(Paths.get("/var/www/test.bimserver.logic-labs.nl/www"));
 			testConfiguration.setHomeDir(Paths.get("/var/bimservertest/test"));
 		} else {
 			testConfiguration.setHomeDir(Paths.get("D:\\BIMserverTest"));
