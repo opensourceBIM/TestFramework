@@ -38,7 +38,7 @@ public class TestAll {
 		if (SystemUtils.IS_OS_LINUX) {
 			testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("/var/ifc"), testFramework));
 			testConfiguration.setOutputFolder(Paths.get("/var/www/test.bimserver.logic-labs.nl"));
-			testConfiguration.setHomeDir(Paths.get("/var/bimservertest"));
+			testConfiguration.setHomeDir(Paths.get("/var/bimservertest/test"));
 		} else {
 			testConfiguration.setHomeDir(Paths.get("D:\\BIMserverTest"));
 			testConfiguration.setTestFileProvider(new FolderWalker(Paths.get("D:\\Dropbox\\Shared\\IFC files public"), testFramework));
