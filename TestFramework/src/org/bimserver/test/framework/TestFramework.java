@@ -50,7 +50,7 @@ public class TestFramework {
 	
 	private final Set<VirtualUser> virtualUsers = new HashSet<VirtualUser>();
 	private final TestConfiguration testConfiguration;
-	private final TestResults testResults;
+	private TestResults testResults;
 	private BimServer bimServer;
 
 	private Path[] pluginDirectories;
@@ -65,10 +65,10 @@ public class TestFramework {
 	public TestFramework(TestConfiguration testConfiguration, Path[] pluginDirectories) {
 		this.testConfiguration = testConfiguration;
 		this.pluginDirectories = pluginDirectories;
-		testResults = new TestResults(testConfiguration.getOutputFolder());
 	}
 	
 	public void start() {
+		testResults = new TestResults(testConfiguration.getOutputFolder());
 		if (testConfiguration.isStartEmbeddedBimServer()) {
 			if (testConfiguration.isCleanEnvironmentFirst()) {
 				try {
