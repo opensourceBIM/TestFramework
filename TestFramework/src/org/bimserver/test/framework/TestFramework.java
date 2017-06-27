@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.SystemUtils;
 import org.bimserver.BimServer;
 import org.bimserver.BimServerConfig;
 import org.bimserver.EmbeddedWebServer;
@@ -111,14 +112,16 @@ public class TestFramework {
 				String repository = "http://central.maven.org/maven2";
 				
 				PluginInterface pluginInterface = bimServer.getService(PluginInterface.class);
-				
-//				installPlugin(repository, "org.opensourcebim", "bimserverapi", pluginInterface);
-//				installPlugin(repository, "org.opensourcebim", "bimsurfer", pluginInterface);
-//				installPlugin(repository, "org.opensourcebim", "ifcplugins", pluginInterface);
-//				installPlugin(repository, "org.opensourcebim", "binaryserializers", pluginInterface);
-//				installPlugin(repository, "org.opensourcebim", "ifcopenshellplugin", pluginInterface);
-//				installPlugin(repository, "org.opensourcebim", "ifcengine", pluginInterface);
-//				installPlugin(repository, "org.opensourcebim", "bimviews", pluginInterface);
+			
+				if (SystemUtils.IS_OS_LINUX) {
+					installPlugin(repository, "org.opensourcebim", "bimserverapi", pluginInterface);
+					installPlugin(repository, "org.opensourcebim", "bimsurfer", pluginInterface);
+					installPlugin(repository, "org.opensourcebim", "ifcplugins", pluginInterface);
+					installPlugin(repository, "org.opensourcebim", "binaryserializers", pluginInterface);
+					installPlugin(repository, "org.opensourcebim", "ifcopenshellplugin", pluginInterface);
+					installPlugin(repository, "org.opensourcebim", "ifcengine", pluginInterface);
+					installPlugin(repository, "org.opensourcebim", "bimviews", pluginInterface);
+				}
 			} catch (Exception e) {
 				LOGGER.error("", e);
 			}
