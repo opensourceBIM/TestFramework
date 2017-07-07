@@ -112,6 +112,9 @@ public class TestFramework {
 				String repository = "http://central.maven.org/maven2";
 				
 				PluginInterface pluginInterface = bimServer.getService(PluginInterface.class);
+				if (pluginInterface == null) {
+					LOGGER.error("No PluginInterface");
+				}
 			
 				if (SystemUtils.IS_OS_LINUX) {
 					installPlugin(repository, "org.opensourcebim", "bimserverapi", pluginInterface);
