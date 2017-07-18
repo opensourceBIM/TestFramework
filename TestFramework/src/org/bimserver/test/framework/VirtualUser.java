@@ -18,6 +18,7 @@ package org.bimserver.test.framework;
  *****************************************************************************/
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -74,6 +75,7 @@ public class VirtualUser extends Thread {
 			int nrRunsPerVirtualUser = this.testFramework.getTestConfiguration().getNrRunsPerVirtualUser();
 			while (running && (nrRunsPerVirtualUser == -1 || nrRuns < nrRunsPerVirtualUser)) {
 				Action action = null;
+				GregorianCalendar start = new GregorianCalendar();
 				try {
 					if (!bimServerClient.getAuthInterface().isLoggedIn()) {
 						actionResults = new ActionResults();
@@ -88,7 +90,7 @@ public class VirtualUser extends Thread {
 						}
 						String text = actionResults.getText();
 						LOGGER.info(getName() + " Success: " + (text == null || text.equals("") ? action.getClass().getSimpleName() : text));
-						testFramework.getResults().addRow(actionResults, this, action);
+						testFramework.getResults().addRow(actionResults, this, action, start);
 					}
 				} catch (UserException e) {
 					if (testFramework.getMode() == Mode.STOPPING) {
@@ -97,7 +99,7 @@ public class VirtualUser extends Thread {
 						LOGGER.info(getName() + " UserException: " + e.getMessage());
 						actionResults.setType("WARN");
 						actionResults.setText(e.getMessage());
-						testFramework.getResults().addRow(actionResults, this, action);
+						testFramework.getResults().addRow(actionResults, this, action, start);
 						if (this.testFramework.getTestConfiguration().isStopOnUserException()) {
 							break;
 						}
@@ -110,7 +112,7 @@ public class VirtualUser extends Thread {
 						e.printStackTrace();
 						actionResults.setText(e.getMessage() + (e.getCause() != null ? (" (" + e.getCause().getMessage() + ")") : ""));
 						actionResults.setType("ERROR");
-						testFramework.getResults().addRow(actionResults, this, action);
+						testFramework.getResults().addRow(actionResults, this, action, start);
 						LOGGER.info(e.getMessage());
 						if (this.testFramework.getTestConfiguration().isStopOnServerException()) {
 							break;
