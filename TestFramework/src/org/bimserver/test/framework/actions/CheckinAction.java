@@ -41,7 +41,7 @@ public class CheckinAction extends Action {
 	public void execute(VirtualUser virtualUser) throws Exception {
 		SProject project = virtualUser.getRandomProject();
 		Path randomFile = getTestFramework().getTestFile();
-		String fileName = randomFile.getFileName().toString();
+		String fileName = randomFile.toAbsolutePath().getFileName().toString();
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 		SDeserializerPluginConfiguration suggestedDeserializerForExtension = virtualUser.getBimServerClient().getServiceInterface().getSuggestedDeserializerForExtension(extension, project.getOid());
 		
@@ -77,7 +77,13 @@ public class CheckinAction extends Action {
 						virtualUser.getBimServerClient().getServiceInterface().cleanupLongAction(topicId);
 						break;
 					} else if (checkinState.getState() == SActionState.AS_ERROR) {
-						virtualUser.getActionResults().setText("" + checkinState.getErrors());
+						if (!checkinState.getErrors().isEmpty()) {
+							if (checkinState.getErrors().size() == 1) {
+								virtualUser.getActionResults().setText("" + checkinState.getErrors().get(0));
+							} else {
+								virtualUser.getActionResults().setText("" + checkinState.getErrors());
+							}
+						}
 						virtualUser.getActionResults().setExtra(fileName);
 						virtualUser.getActionResults().setType("ERROR");
 						break;

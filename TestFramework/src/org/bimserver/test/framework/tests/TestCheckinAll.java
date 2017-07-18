@@ -45,7 +45,7 @@ public class TestCheckinAll {
 		
 		testConfiguration.setActionFactory(new CheckinActionsFactory(testFramework));
 		testConfiguration.setBimServerClientFactory(new RandomBimServerClientFactory(testFramework, 8080, Type.JSON));
-		testConfiguration.setNrVirtualUsers(1);
+		testConfiguration.setNrVirtualUsers(4);
 		
 		testFramework.start();
 	}
