@@ -41,7 +41,7 @@ public class CheckinAction extends Action {
 	public void execute(VirtualUser virtualUser) throws Exception {
 		SProject project = virtualUser.getRandomProject();
 		Path randomFile = getTestFramework().getTestFile();
-		String fileName = randomFile.toAbsolutePath().getFileName().toString();
+		String fileName = randomFile.toAbsolutePath().toString();
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 		SDeserializerPluginConfiguration suggestedDeserializerForExtension = virtualUser.getBimServerClient().getServiceInterface().getSuggestedDeserializerForExtension(extension, project.getOid());
 		
