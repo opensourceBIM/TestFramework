@@ -28,10 +28,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Run {
 
 	private Connection connection;
-	private ObjectNode config;
 
 	public Run(ObjectNode config, Connection connection) {
-		this.config = config;
 		this.connection = connection;
 	}
 	

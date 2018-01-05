@@ -1,7 +1,5 @@
 package org.bimserver.test.framework.actions;
 
-import java.util.GregorianCalendar;
-
 /******************************************************************************
  * Copyright (C) 2009-2017  BIMserver.org
  * 
