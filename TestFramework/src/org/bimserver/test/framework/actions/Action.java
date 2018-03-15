@@ -1,5 +1,6 @@
 package org.bimserver.test.framework.actions;
 
+<<<<<<< HEAD
 /******************************************************************************
  * Copyright (C) 2009-2018  BIMserver.org
  * 
@@ -19,6 +20,8 @@ package org.bimserver.test.framework.actions;
 
 import java.util.GregorianCalendar;
 
+=======
+>>>>>>> branch 'master' of https://github.com/opensourceBIM/TestFramework.git
 /******************************************************************************
  * Copyright (C) 2009-2017  BIMserver.org
  * 
