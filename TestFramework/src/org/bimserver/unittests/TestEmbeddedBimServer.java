@@ -1,6 +1,5 @@
 package org.bimserver.unittests;
 
-<<<<<<< HEAD
 /******************************************************************************
  * Copyright (C) 2009-2018  BIMserver.org
  * 
@@ -21,8 +20,6 @@ package org.bimserver.unittests;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-=======
->>>>>>> branch 'master' of https://github.com/opensourceBIM/TestFramework.git
 import java.nio.file.Paths;
 import java.util.Random;
 
