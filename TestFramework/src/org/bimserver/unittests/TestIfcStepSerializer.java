@@ -56,7 +56,7 @@ public class TestIfcStepSerializer {
 			IfcModel model = new BasicIfcModel(packageMetaData, null);
 			IfcWall wall = model.create(Ifc2x3tc1Package.eINSTANCE.getIfcWall());
 			wall.setName("Test with 'quotes");
-			serializer.init(model, null, pluginManager, false);
+			serializer.init(model, null, false);
 			SerializerUtils.writeToFile(serializer, Paths.get("output/test.ifc"));
 		} catch (PluginException e) {
 			e.printStackTrace();

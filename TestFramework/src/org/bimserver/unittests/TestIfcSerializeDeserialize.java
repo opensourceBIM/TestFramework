@@ -63,7 +63,7 @@ public class TestIfcSerializeDeserialize {
 			IfcModel model = new BasicIfcModel(packageMetaData, null);
 			IfcWall wall = model.create(Ifc2x3tc1Package.eINSTANCE.getIfcWall());
 			wall.setName("Test with 'quote and \\backslash");
-			serializer.init(model, null, pluginManager, false);
+			serializer.init(model, null, false);
 			SerializerUtils.writeToFile(serializer, Paths.get("output/test.ifc"));
 			
 			DeserializerPlugin deserializerPlugin = pluginManager.getFirstDeserializer("ifc", Schema.IFC2X3TC1, true);

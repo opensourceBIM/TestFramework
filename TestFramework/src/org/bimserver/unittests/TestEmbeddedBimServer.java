@@ -104,6 +104,12 @@ public class TestEmbeddedBimServer {
 	@AfterClass
 	public static void shutdownClass() {
 		bimServer.stop();
+		try {
+			Thread.sleep(1000000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
