@@ -60,8 +60,12 @@ public class CheckinAction extends Action {
 			Flow flow = settings.shouldAsync() ? Flow.ASYNC : Flow.SYNC;
 			boolean merge = settings.shouldMerge();
 			virtualUser.getActionResults().setText("Checking in new revision on project " + project.getName() + " (" + fileName + ") " + "sync: " + flow + ", merge: " + merge);
-			long topicId;
-			topicId = virtualUser.getBimServerClient().checkin(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, flow, randomFile);
+			long topicId = -1;
+			if (flow == Flow.SYNC) {
+				topicId = virtualUser.getBimServerClient().checkinSync(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, randomFile).getTopicId();
+			} else if (flow == Flow.ASYNC) {
+				topicId = virtualUser.getBimServerClient().checkinAsync(project.getOid(), randomString(), suggestedDeserializerForExtension.getOid(), merge, randomFile);
+			}
 			if (flow == Flow.SYNC) {
 				SLongActionState longActionState = virtualUser.getBimServerClient().getRegistry().getProgress(topicId);
 				if (longActionState.getState() == SActionState.AS_ERROR) {
